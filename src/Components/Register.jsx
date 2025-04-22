@@ -4,17 +4,32 @@ import auth from "../Firebase";
 
 const Register = () => {
   const [errorMessage,setErrormessage]= useState('')
+  const [success,setSucceess]= useState(false)
     const handleSubmit = (e)=>{
         e.preventDefault()
         const email = e.target.email.value
-        const password = e.target.password.value
+        const password = e.target.password.value;
 
+        setErrormessage('')
+        setSucceess(false)
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+        if(!passwordRegex.test(password)){
+          setErrormessage('must be one loweracse uppercase one number and special character')
+          return;
+        }
+        if(password.length<6){
+          setErrormessage('password should be 6 character or longer')
+          return
+        }
         createUserWithEmailAndPassword (auth, email, password)
     .then(result=>{
         console.log(result.user)
+        setSucceess(true)
     })
     .catch(error=>{
         setErrormessage(error.message)
+        setSucceess(false)
     })
         
 
@@ -36,6 +51,9 @@ const Register = () => {
           </div>
           {
           errorMessage && <p className="text-red-600">{errorMessage}</p>
+        }
+          {
+          success && <p className="text-green-600">sign up is success</p>
         }
         </form>
 
