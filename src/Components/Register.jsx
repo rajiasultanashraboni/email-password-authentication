@@ -1,10 +1,12 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import auth from "../Firebase";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [errorMessage,setErrormessage]= useState('')
   const [success,setSucceess]= useState(false)
+  const [showPassword,setShowPassword]=useState(false)
     const handleSubmit = (e)=>{
         e.preventDefault()
         const email = e.target.email.value
@@ -22,6 +24,8 @@ const Register = () => {
           setErrormessage('password should be 6 character or longer')
           return
         }
+
+        
         createUserWithEmailAndPassword (auth, email, password)
     .then(result=>{
         console.log(result.user)
@@ -42,7 +46,22 @@ const Register = () => {
               <label className="label">Email</label>
               <input type="email" name='email' className="input" placeholder="Email" />
               <label className="label">Password</label>
-              <input type="password" name='password' className="input" placeholder="Password" />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="input w-full"
+                  placeholder="Password"
+                />
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 z-10"
+                >
+                  {
+                    showPassword?<FaEyeSlash />:<FaEye />
+                  }
+                </div>
+              </div>
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
