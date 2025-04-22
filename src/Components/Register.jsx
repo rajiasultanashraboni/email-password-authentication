@@ -11,6 +11,9 @@ const Register = () => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value;
+        const terms = e.target.terms.checked
+
+        console.log(terms)
 
         setErrormessage('')
         setSucceess(false)
@@ -22,6 +25,11 @@ const Register = () => {
         }
         if(password.length<6){
           setErrormessage('password should be 6 character or longer')
+          return
+        }
+
+        if(!terms){
+          setErrormessage('please accept our terms and condition')
           return
         }
 
@@ -64,6 +72,13 @@ const Register = () => {
               </div>
               <div>
                 <a className="link link-hover">Forgot password?</a>
+              </div>
+              <div className="flex gap-2 items-center">
+                <input type="checkbox"name='terms' className="checkbox" />
+
+                <div >
+                <a className="link link-hover" >Accept our terms and condition</a>
+              </div>
               </div>
               <button className="btn btn-primary mt-4">Register</button>
             </fieldset>
